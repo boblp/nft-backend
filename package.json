@@ -1,4 +1,14 @@
 {
+  "name": "herokudeploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keyword": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
     "mongodb": "^4.6.0"
