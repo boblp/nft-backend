@@ -16,7 +16,7 @@ app.listen(port, () => {
 })
 
 const quickAuth = (req, res, next) => {
-  if (req.query.authToken !== token) res.send('Wrong Token')
+  if (req.query.authToken !== token) return res.status(401).send('Wrong Token')
 
   next()
 }
