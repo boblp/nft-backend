@@ -26,7 +26,8 @@ app.use(quickAuth)
 app.get('/pools/', (req, res) => {
   db.collection('pools').find().toArray((err, docs) => {
     if (err) console.error(err)
-    res.send(docs)
+
+    return res.status(200).send(docs)
   })
 })
 
@@ -36,7 +37,8 @@ app.get('/pools/:poolId', (req, res) => {
 
   db.collection('pools').find({ _id }).toArray((err, docs) => {
     if (err) console.error(err)
-    res.send(docs[0])
+
+    return res.status(200).send(docs[0])
   })
 })
 
@@ -50,7 +52,8 @@ app.post('/pools', (req, res) => {
 
   db.collection('pools').insertOne(obj, (err, docs) => {
     if (err) console.error(err)
-    res.send(docs)
+
+    return res.status(200).send(docs)
   })
 })
 
@@ -65,7 +68,8 @@ app.patch('/pools/:poolId', (req, res) => {
 
   db.collection('pools').updateOne({ _id }, update, (err, docs) => {
     if (err) console.error(err)
-    res.send(docs)
+    
+    return res.status(200).send(docs)
   })
 })
 
@@ -75,6 +79,7 @@ app.delete('/pools/:poolId', (req, res) => {
 
   db.collection('pools').deleteOne({ _id }, (err, docs) => {
     if (err) console.error(err)
-    res.send(docs)
+    
+    return res.status(200).send(docs)
   })
 })
