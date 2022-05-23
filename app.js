@@ -1,10 +1,13 @@
 const express = require('express')
+const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb')
 const app = express()
 const port = process.env.PORT || 3000
 const token = '8112557887258041'
 const uri = "mongodb+srv://boblp:328bu5ad@cluster0.lz6dt.mongodb.net/?retryWrites=true&w=majority"
 let db
+
+app.use(cors());
 
 MongoClient.connect(uri, function(err, database) {
   if(err) return console.error(err)
