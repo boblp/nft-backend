@@ -34,6 +34,10 @@ const quickAuth = (req, res, next) => {
 
 app.use(quickAuth)
 
+app.get('/', (req, res) => {
+  return res.status(200).send('Up and Running')
+})
+
 app.get('/pools/', (req, res) => {
   db.collection('pools').find().toArray((err, docs) => {
     if (err) return res.status(500).send(err)
