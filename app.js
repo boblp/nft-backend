@@ -1,21 +1,22 @@
 const express = require('express')
-const cors = require('cors');
+const cors = require('cors')
 const { MongoClient, ObjectId } = require('mongodb')
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 const token = '8112557887258041'
 const uri = "mongodb+srv://boblp:328bu5ad@cluster0.lz6dt.mongodb.net/?retryWrites=true&w=majority"
 let db
 
-app.use(cors());
+app.use(cors())
+app.use(express.json())
 
 app.all('*', function(req, res, next) {
-  var origin = req.get('origin'); 
-  res.header('Access-Control-Allow-Origin', origin);
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+  var origin = req.get('origin') 
+  res.header('Access-Control-Allow-Origin', origin)
+  res.header("Access-Control-Allow-Headers", "X-Requested-With")
+  res.header('Access-Control-Allow-Headers', 'Content-Type')
+  next()
+})
 
 MongoClient.connect(uri, function(err, database) {
   if(err) return console.error(err)
@@ -73,13 +74,14 @@ app.post('/pools', (req, res) => {
 })
 
 app.patch('/pools/:poolId', (req, res) => {
-  const { poolId } = req.params
-  const nfts = JSON.parse(req.query.nfts)
+  console.log(req.body)
+  if(!req.params.poolId || !req.body.nfts) return res.send("PoolId is required")
 
-  if(!poolId || !nfts) return res.send("PoolId is required")
+  const nfts = req.body.nfts
+  const _id = new ObjectId(req.params.poolId)
+  const update = { $set: { nfts } }
 
-  const _id = new ObjectId(poolId)
-  const update = { $set: nfts }
+  console.log(update)
 
   db.collection('pools').updateOne({ _id }, update, (err, docs) => {
     if (err) return res.status(500).send(err)
