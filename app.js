@@ -1,10 +1,12 @@
+require('dotenv').config()
+
 const express = require('express')
 const cors = require('cors')
 const { MongoClient, ObjectId } = require('mongodb')
 const app = express()
-const port = process.env.PORT || 8080
-const token = '8112557887258041'
-const uri = "mongodb+srv://boblp:328bu5ad@cluster0.lz6dt.mongodb.net/?retryWrites=true&w=majority"
+const port = process.env.PORT
+const token = process.env.AUTH_TOKEN
+const uri = process.env.MONGO_URL
 let db
 
 app.use(cors())
@@ -74,14 +76,11 @@ app.post('/pools', (req, res) => {
 })
 
 app.patch('/pools/:poolId', (req, res) => {
-  console.log(req.body)
   if(!req.params.poolId || !req.body.nfts) return res.send("PoolId is required")
 
   const nfts = req.body.nfts
   const _id = new ObjectId(req.params.poolId)
   const update = { $set: { nfts } }
-
-  console.log(update)
 
   db.collection('pools').updateOne({ _id }, update, (err, docs) => {
     if (err) return res.status(500).send(err)
